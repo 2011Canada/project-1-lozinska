@@ -9,19 +9,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.revature.controllers.ErrorController;
+import com.revature.controllers.UserController;
 
 
 public class FrontController extends HttpServlet{
 	
 	private ErrorController errorController = new ErrorController();
+	private UserController userController=new UserController();
 	
 	protected void directControlRouter(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		//how to get a value from your init params
-		System.out.println(this.getInitParameter("DefaultRole"));
+		/*System.out.println(this.getInitParameter("DefaultRole"));
 		ServletContext sc = this.getServletContext();
 		
 		System.out.println(sc.getInitParameter("JavaCoolFactor"));
-		
+		*/
 		//be our front controller
 		String URI = req.getRequestURI().substring(req.getContextPath().length(), 
 													req.getRequestURI().length());
@@ -36,7 +38,7 @@ public class FrontController extends HttpServlet{
 						break;
 					}
 					case "POST":{
-						//TODO
+						userController.userLogin(req, res);
 						break;
 					}
 					case "PUT":{
@@ -58,7 +60,7 @@ public class FrontController extends HttpServlet{
 				}
 				break;
 			}
-			case "/users": {
+			case "/viewPastTickets": {
 				switch (req.getMethod()) {
 					case "GET":{
 						//TODO
@@ -87,8 +89,150 @@ public class FrontController extends HttpServlet{
 				}
 				break;
 			}
-			case "/users/" : {
-				
+			case "/userInfo" : {
+				switch (req.getMethod()) {
+				case "GET":{
+					//TODO
+					break;
+				}
+				case "POST":{
+					res.setStatus(400);
+					res.getWriter().write("Method Not Supported");
+					break;
+				}
+				case "PUT":{
+					res.setStatus(400);
+					res.getWriter().write("Method Not Supported");
+					break;
+				}
+				case "DELETE":{
+					res.setStatus(400);
+					res.getWriter().write("Method Not Supported");
+					break;
+				}
+				default:{
+					res.setStatus(400);
+					res.getWriter().write("Method Not Supported");
+					break;
+				}
+			}
+			break;
+			}
+			case "/addTicket":{
+				switch (req.getMethod()) {
+				case "GET":{
+					//TODO
+					break;
+				}
+				case "POST":{
+					res.setStatus(400);
+					res.getWriter().write("Method Not Supported");
+					break;
+				}
+				case "PUT":{
+					res.setStatus(400);
+					res.getWriter().write("Method Not Supported");
+					break;
+				}
+				case "DELETE":{
+					res.setStatus(400);
+					res.getWriter().write("Method Not Supported");
+					break;
+				}
+				default:{
+					res.setStatus(400);
+					res.getWriter().write("Method Not Supported");
+					break;
+				}
+			}
+			break;
+			}
+			case "/viewAllTickets":{
+				switch (req.getMethod()) {
+				case "GET":{
+					//TODO
+					break;
+				}
+				case "POST":{
+					res.setStatus(400);
+					res.getWriter().write("Method Not Supported");
+					break;
+				}
+				case "PUT":{
+					res.setStatus(400);
+					res.getWriter().write("Method Not Supported");
+					break;
+				}
+				case "DELETE":{
+					res.setStatus(400);
+					res.getWriter().write("Method Not Supported");
+					break;
+				}
+				default:{
+					res.setStatus(400);
+					res.getWriter().write("Method Not Supported");
+					break;
+				}
+			}
+			break;
+			}
+			case "/statusChange":{
+				switch (req.getMethod()) {
+				case "GET":{
+					//TODO
+					break;
+				}
+				case "POST":{
+					res.setStatus(400);
+					res.getWriter().write("Method Not Supported");
+					break;
+				}
+				case "PUT":{
+					res.setStatus(400);
+					res.getWriter().write("Method Not Supported");
+					break;
+				}
+				case "DELETE":{
+					res.setStatus(400);
+					res.getWriter().write("Method Not Supported");
+					break;
+				}
+				default:{
+					res.setStatus(400);
+					res.getWriter().write("Method Not Supported");
+					break;
+				}
+			}
+			break;
+			}
+			case "/filterByStatus":{
+				switch (req.getMethod()) {
+				case "GET":{
+					//TODO
+					break;
+				}
+				case "POST":{
+					res.setStatus(400);
+					res.getWriter().write("Method Not Supported");
+					break;
+				}
+				case "PUT":{
+					res.setStatus(400);
+					res.getWriter().write("Method Not Supported");
+					break;
+				}
+				case "DELETE":{
+					res.setStatus(400);
+					res.getWriter().write("Method Not Supported");
+					break;
+				}
+				default:{
+					res.setStatus(400);
+					res.getWriter().write("Method Not Supported");
+					break;
+				}
+			}
+			break;
 			}
 			default:{
 				res.setStatus(404);
