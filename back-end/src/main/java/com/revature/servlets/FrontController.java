@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.revature.controllers.ErrorController;
+import com.revature.controllers.ReimbursementController;
 import com.revature.controllers.UserController;
 
 
@@ -16,7 +17,7 @@ public class FrontController extends HttpServlet{
 	
 	private ErrorController errorController = new ErrorController();
 	private UserController userController=new UserController();
-	
+	private ReimbursementController reimbursementController= new ReimbursementController();
 	protected void directControlRouter(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		//how to get a value from your init params
 		/*System.out.println(this.getInitParameter("DefaultRole"));
@@ -60,10 +61,10 @@ public class FrontController extends HttpServlet{
 				}
 				break;
 			}
-			case "/viewPastTickets": {
+			case "/viewAllTickets": {
 				switch (req.getMethod()) {
 					case "GET":{
-						//TODO
+						reimbursementController.findAllTickets(req, res);
 						break;
 					}
 					case "POST":{
@@ -89,39 +90,11 @@ public class FrontController extends HttpServlet{
 				}
 				break;
 			}
-			case "/userInfo" : {
-				switch (req.getMethod()) {
-				case "GET":{
-					//TODO
-					break;
-				}
-				case "POST":{
-					res.setStatus(400);
-					res.getWriter().write("Method Not Supported");
-					break;
-				}
-				case "PUT":{
-					res.setStatus(400);
-					res.getWriter().write("Method Not Supported");
-					break;
-				}
-				case "DELETE":{
-					res.setStatus(400);
-					res.getWriter().write("Method Not Supported");
-					break;
-				}
-				default:{
-					res.setStatus(400);
-					res.getWriter().write("Method Not Supported");
-					break;
-				}
-			}
-			break;
-			}
 			case "/addTicket":{
 				switch (req.getMethod()) {
 				case "GET":{
-					//TODO
+					res.setStatus(400);
+					res.getWriter().write("Method Not Supported");
 					break;
 				}
 				case "POST":{
@@ -130,35 +103,7 @@ public class FrontController extends HttpServlet{
 					break;
 				}
 				case "PUT":{
-					res.setStatus(400);
-					res.getWriter().write("Method Not Supported");
-					break;
-				}
-				case "DELETE":{
-					res.setStatus(400);
-					res.getWriter().write("Method Not Supported");
-					break;
-				}
-				default:{
-					res.setStatus(400);
-					res.getWriter().write("Method Not Supported");
-					break;
-				}
-			}
-			break;
-			}
-			case "/viewAllTickets":{
-				switch (req.getMethod()) {
-				case "GET":{
-					//TODO
-					break;
-				}
-				case "POST":{
-					res.setStatus(400);
-					res.getWriter().write("Method Not Supported");
-					break;
-				}
-				case "PUT":{
+					reimbursementController.createTicket(req, res);
 					res.setStatus(400);
 					res.getWriter().write("Method Not Supported");
 					break;
