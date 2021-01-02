@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import com.revature.models.Reimbursement;
@@ -16,8 +17,10 @@ public class EmplReimbPostgresDAO implements EmplReimbDAO{
 private ConnectionFactory cf=ConnectionFactory.getConnectionFactory();
 
 	@Override
-	public Reimbursement createTicket(Reimbursement reimbTicket, int authorID, int typeID, int statusID) {
+	public Reimbursement createTicket(Reimbursement reimbTicket) {
 		Connection conn=cf.getConnection();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime( new java.util.Date() );
 		try {
 			conn.setAutoCommit(false);
 			
@@ -25,11 +28,11 @@ private ConnectionFactory cf=ConnectionFactory.getConnectionFactory();
 		
 			PreparedStatement insertTicket=conn.prepareStatement(sql);
 		    insertTicket.setDouble(1,reimbTicket.getReimbursementAmmount());
-		    insertTicket.setTimestamp(2,Timestamp.valueOf(reimbTicket.getReimbursementSubmitted()));
+		    insertTicket.setTimestamp(2,new java.sql.Timestamp(cal.getTime().getTime()));
 		    insertTicket.setString(3,reimbTicket.getReimbursementDescription());
-		    insertTicket.setInt(4,authorID);
-		    insertTicket.setInt(5, statusID);
-		    insertTicket.setInt(6, typeID);
+		    insertTicket.setInt(4,reimbTicket.getReimbursementAuthorId());
+		    insertTicket.setInt(5, reimbTicket.getReimbursementStatusId());
+		    insertTicket.setInt(6, reimbTicket.getType());
 		
 		    ResultSet res=insertTicket.executeQuery();
 		    int reimbID;
@@ -160,15 +163,19 @@ private ConnectionFactory cf=ConnectionFactory.getConnectionFactory();
 	}
 
 	@Override
-	public Reimbursement updateStatus(Reimbursement reimb, int statusID) {
+	public void updateStatus(int reimbursementID, int statusID) {
 		Connection conn=this.cf.getConnection();
 		try {
 			conn.setAutoCommit(false);
-		String sql="update ers_reimbursement set reimb_status_id=? where reimb_author=?;";
+			Calendar cal = Calendar.getInstance();
+			cal.setTime( new java.util.Date() );
+			
+			String sql="update ers_reimbursement set reimb_status_id=?,  reimb_resolved=? where reimb_id=?;";
 	
 			PreparedStatement updateStatus=conn.prepareStatement(sql);
-			updateStatus.setInt(1,statusID);
-			updateStatus.setInt(2, reimb.getReimbursementAuthorId());
+			updateStatus.setInt(1,reimbursementID);
+			updateStatus.setInt(2, statusID);
+			updateStatus.setTimestamp(3, new java.sql.Timestamp( cal.getTime().getTime()));
 			updateStatus.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -189,8 +196,6 @@ private ConnectionFactory cf=ConnectionFactory.getConnectionFactory();
 			}
 			cf.releaseConnection(conn);
 		}
-		
-		return reimb;
 	}
 
 }

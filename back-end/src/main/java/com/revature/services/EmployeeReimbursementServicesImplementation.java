@@ -11,15 +11,14 @@ public EmployeeReimbursementServicesImplementation(EmplReimbDAO ed) {
 	this.ed=ed;
 }
 	@Override
-	public Reimbursement createReimbursement(Reimbursement r, int authorID, int typeID, int statusID) {
+	public Reimbursement createReimbursement(Reimbursement r) {
 		
-		return ed.createTicket(r, authorID, typeID, statusID);
+		return ed.createTicket(r);
 	}
 
 	@Override
-	public Reimbursement updateStatus(Reimbursement r, int statusID) {
-		// TODO Auto-generated method stub
-		return ed.updateStatus(r, statusID);
+	public void updateStatus(int reimbursementID, int statusID) {
+		ed.updateStatus(reimbursementID, statusID);
 	}
 
 	@Override

@@ -9,6 +9,34 @@ private String reimbursementDescription;
 private int reimbursementAuthorId;
 private int reimbursementResolverId;
 private int reimbursementStatusId;
+private int type;
+private String authorName;
+private String resolverName;
+public int getType() {
+	return type;
+}
+public void setType(int type) {
+	this.type = type;
+}
+public String getAuthorName() {
+	return authorName;
+}
+public void setAuthorName(String authorName) {
+	this.authorName = authorName;
+}
+public String getResolverName() {
+	return resolverName;
+}
+public void setResolverName(String resolverName) {
+	this.resolverName = resolverName;
+}
+public String getStatusName() {
+	return statusName;
+}
+public void setStatusName(String statusName) {
+	this.statusName = statusName;
+}
+private String statusName;
 
 public int getReimbursementStatusId() {
 	return reimbursementStatusId;
@@ -61,16 +89,23 @@ public int getReimbursementResolverId() {
 public void setReimbursementResolverId(int reimbursementResolverId) {
 	this.reimbursementResolverId = reimbursementResolverId;
 }
-public Reimbursement(double reimbursementAmmount, String reimbursementSubmitted, String reimbursementResolved,
-		String reimbursementDescription, int reimbursementAuthorId, int reimbursementResolverId,int reimbursementStatus) {
+public Reimbursement(int reimbursementID, double reimbursementAmmount, String reimbursementSubmitted,
+		String reimbursementResolved, String reimbursementDescription, int reimbursementAuthorId,
+		int reimbursementResolverId, int reimbursementStatusId, int type, String authorName, String resolverName,
+		String statusName) {
 	super();
+	this.reimbursementID = reimbursementID;
 	this.reimbursementAmmount = reimbursementAmmount;
 	this.reimbursementSubmitted = reimbursementSubmitted;
 	this.reimbursementResolved = reimbursementResolved;
 	this.reimbursementDescription = reimbursementDescription;
 	this.reimbursementAuthorId = reimbursementAuthorId;
 	this.reimbursementResolverId = reimbursementResolverId;
-	this.reimbursementStatusId=reimbursementStatusId;
+	this.reimbursementStatusId = reimbursementStatusId;
+	this.type = type;
+	this.authorName = authorName;
+	this.resolverName = resolverName;
+	this.statusName = statusName;
 }
 public Reimbursement() {
 	super();

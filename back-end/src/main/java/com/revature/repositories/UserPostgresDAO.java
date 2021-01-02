@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.User;
@@ -41,6 +43,33 @@ public class UserPostgresDAO implements UserDAO{
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public List<User> getAll() {
+		Connection conn=cf.getConnection();
+		List<User> allUsers=new ArrayList<>();
+		try {
+		String sql="select * from ers_users;";
+		PreparedStatement getUser=conn.prepareStatement(sql);
+		ResultSet res=getUser.executeQuery();
+		
+		while(res.next()) {
+			User user=new User();
+			user.setUserID(res.getInt("ers_users_id"));
+			user.setFirstName(res.getString("user_first_name"));
+			user.setLastName(res.getString("user_last_name"));
+			user.setPassword(res.getString("ers_password"));
+			user.setRole(res.getInt("user_role_id"));
+			user.setUsername(res.getString("ers_username"));
+			user.setEmail(res.getString("user_email"));
+			allUsers.add(user);
+		}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return allUsers;
 	}
 
 	
