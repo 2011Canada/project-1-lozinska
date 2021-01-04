@@ -31,7 +31,7 @@ private ConnectionFactory cf=ConnectionFactory.getConnectionFactory();
 		    insertTicket.setTimestamp(2,new java.sql.Timestamp(cal.getTime().getTime()));
 		    insertTicket.setString(3,reimbTicket.getReimbursementDescription());
 		    insertTicket.setInt(4,reimbTicket.getReimbursementAuthorId());
-		    insertTicket.setInt(5, reimbTicket.getReimbursementStatusId());
+		    insertTicket.setInt(5, 1);
 		    insertTicket.setInt(6, reimbTicket.getType());
 		
 		    ResultSet res=insertTicket.executeQuery();
@@ -85,8 +85,9 @@ private ConnectionFactory cf=ConnectionFactory.getConnectionFactory();
 				r.setReimbursementAmmount(res.getDouble("reimb_amount"));
 				r.setReimbursementDescription(res.getString("reimb_description"));
 				r.setReimbursementResolverId(res.getInt("reimb_resolver"));
-				r.setReimbursementSubmitted(res.getTimestamp("reimb_submitted").toString());
-				r.setReimbursementResolved(res.getTimestamp("reimb_resolved").toString());
+				r.setReimbursementSubmitted(res.getString("reimb_submitted"));
+				r.setReimbursementResolved(res.getString("reimb_resolved"));
+				r.setType(res.getInt("reimb_type_id"));
 				allReimb.add(r);
 			}
 		} catch (SQLException e) {
@@ -116,8 +117,9 @@ private ConnectionFactory cf=ConnectionFactory.getConnectionFactory();
 			r.setReimbursementAmmount(res.getDouble("reimb_amount"));
 			r.setReimbursementAuthor(res.getInt("reimb_author"));
 			r.setReimbursementDescription(res.getString("reimb_description"));
-			r.setReimbursementSubmitted(res.getTimestamp("reimb_submitted").toString());
-			r.setReimbursementResolved(res.getTimestamp("reimb_resolved").toString());
+			r.setReimbursementSubmitted(res.getString("reimb_submitted"));
+			r.setReimbursementResolved(res.getString("reimb_resolved"));
+			r.setType(res.getInt("reimb_type_id"));
 			allReimb.add(r);
 		}
 		} catch (SQLException e) {
@@ -146,9 +148,10 @@ private ConnectionFactory cf=ConnectionFactory.getConnectionFactory();
 				r.setReimbursementAmmount(res.getDouble("reimb_amount"));
 				r.setReimbursementAuthor(res.getInt("reimb_author"));
 				r.setReimbursementDescription(res.getString("reimb_description"));
-				r.setReimbursementResolved(res.getTimestamp("reimb_resolved").toString());
+				r.setReimbursementResolved(res.getString("reimb_resolved"));
 				r.setReimbursementResolverId(res.getInt("reimb_resolver"));
-				r.setReimbursementSubmitted(res.getTimestamp("reimb_submitted").toString());
+				r.setReimbursementSubmitted(res.getString("reimb_submitted"));
+				r.setType(res.getInt("reimb_type_id"));
 				allReimb.add(r);
 			}
 		} catch (SQLException e) {
@@ -163,19 +166,20 @@ private ConnectionFactory cf=ConnectionFactory.getConnectionFactory();
 	}
 
 	@Override
-	public void updateStatus(int reimbursementID, int statusID) {
+	public void updateStatus(int reimbursementID, int resolverID,int statusID) {
 		Connection conn=this.cf.getConnection();
 		try {
 			conn.setAutoCommit(false);
 			Calendar cal = Calendar.getInstance();
 			cal.setTime( new java.util.Date() );
 			
-			String sql="update ers_reimbursement set reimb_status_id=?,  reimb_resolved=? where reimb_id=?;";
+			String sql="update ers_reimbursement set  reimb_resolver=?, reimb_status_id=?, reimb_resolved=?  where reimb_id=?;";
 	
 			PreparedStatement updateStatus=conn.prepareStatement(sql);
-			updateStatus.setInt(1,reimbursementID);
-			updateStatus.setInt(2, statusID);
+			updateStatus.setInt(1, resolverID);
+			updateStatus.setInt(2,statusID);
 			updateStatus.setTimestamp(3, new java.sql.Timestamp( cal.getTime().getTime()));
+			updateStatus.setInt(4, reimbursementID);
 			updateStatus.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

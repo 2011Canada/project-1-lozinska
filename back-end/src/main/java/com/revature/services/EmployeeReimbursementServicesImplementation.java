@@ -17,8 +17,8 @@ public EmployeeReimbursementServicesImplementation(EmplReimbDAO ed) {
 	}
 
 	@Override
-	public void updateStatus(int reimbursementID, int statusID) {
-		ed.updateStatus(reimbursementID, statusID);
+	public void updateStatus(int reimbursementID, int statusID, int resolverID) {
+		ed.updateStatus(reimbursementID, statusID, resolverID);
 	}
 
 	@Override

@@ -14,7 +14,7 @@ public List<Reimbursement> findAllByStatus(int statusID);
 
 public List<Reimbursement> findAll();
 
-public void updateStatus(int reimbID, int statusID);
+public void updateStatus(int reimbID, int statusID, int resolverID);
 
 
 }
