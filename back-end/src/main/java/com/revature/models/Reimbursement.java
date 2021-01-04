@@ -10,34 +10,13 @@ private int reimbursementAuthorId;
 private int reimbursementResolverId;
 private int reimbursementStatusId;
 private int type;
-private String authorName;
-private String resolverName;
+
 public int getType() {
 	return type;
 }
 public void setType(int type) {
 	this.type = type;
 }
-public String getAuthorName() {
-	return authorName;
-}
-public void setAuthorName(String authorName) {
-	this.authorName = authorName;
-}
-public String getResolverName() {
-	return resolverName;
-}
-public void setResolverName(String resolverName) {
-	this.resolverName = resolverName;
-}
-public String getStatusName() {
-	return statusName;
-}
-public void setStatusName(String statusName) {
-	this.statusName = statusName;
-}
-private String statusName;
-
 public int getReimbursementStatusId() {
 	return reimbursementStatusId;
 }
@@ -103,9 +82,6 @@ public Reimbursement(int reimbursementID, double reimbursementAmmount, String re
 	this.reimbursementResolverId = reimbursementResolverId;
 	this.reimbursementStatusId = reimbursementStatusId;
 	this.type = type;
-	this.authorName = authorName;
-	this.resolverName = resolverName;
-	this.statusName = statusName;
 }
 public Reimbursement() {
 	super();

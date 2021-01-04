@@ -32,7 +32,7 @@ public class ReimbursementController {
 	public void updateStatus(HttpServletRequest req, HttpServletResponse res,int statusID)throws IOException {
 		ObjectMapper om=new ObjectMapper();
 		Reimbursement r=om.readValue(req.getInputStream(),Reimbursement.class);
-		ers.updateStatus(r.getReimbursementID(), statusID);
+		ers.updateStatus(r.getReimbursementID(),r.getReimbursementResolverId(), statusID);
 		res.setStatus(200);
 		res.getWriter().write(om.writeValueAsString(r));
 	}
@@ -43,5 +43,11 @@ public class ReimbursementController {
 	ers.createReimbursement(r);
 	res.setStatus(200);
 	res.getWriter().write(om.writeValueAsString(r));
+	}
+	
+	public void findTicketByStatus(HttpServletRequest req, HttpServletResponse res, int statusID) throws IOException{
+		List<Reimbursement> reimb=ers.findTicketByStatus(statusID);
+		res.setStatus(200);
+		res.getWriter().write(om.writeValueAsString(reimb));
 	}
 }

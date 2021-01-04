@@ -1,6 +1,8 @@
 package com.revature.servlets;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -18,6 +20,7 @@ public class FrontController extends HttpServlet{
 	private ErrorController errorController = new ErrorController();
 	private UserController userController=new UserController();
 	private ReimbursementController reimbursementController= new ReimbursementController();
+	
 	protected void directControlRouter(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		//how to get a value from your init params
 		/*System.out.println(this.getInitParameter("DefaultRole"));
@@ -28,7 +31,62 @@ public class FrontController extends HttpServlet{
 		//be our front controller
 		String URI = req.getRequestURI().substring(req.getContextPath().length(), 
 													req.getRequestURI().length());
-		
+		String value="";
+		Pattern pattern=Pattern.compile("\\d+$");
+		System.out.println("req.getRequestURI() : " + req.getRequestURI());
+		Matcher matcher=pattern.matcher(req.getRequestURI());
+		boolean isMatch=matcher.find();
+		System.out.println("isMatch: " + isMatch);
+		if(isMatch) {
+			value=matcher.group(0);
+		}
+		if(isMatch) {
+			if(req.getRequestURI().substring(req.getContextPath().length(), req.getRequestURI().length()-value.length()-1).equalsIgnoreCase("/reimb")) {
+		switch(req.getMethod()) {
+		case "GET":
+			reimbursementController.findTicketByStatus(req, res, Integer.parseInt(value));
+			break;
+		case "POST":
+			res.setStatus(400);	res.getWriter().write("Method Not Supported");	break;
+		case "PUT":
+			res.setStatus(400);	res.getWriter().write("Method Not Supported");	break;
+		case "DELETE":
+			res.setStatus(400); res.getWriter().write("Method Not Supported");	break;
+		default:
+			res.setStatus(400); res.getWriter().write("Method Not Supported");	break;
+	}
+			}
+			else if(req.getRequestURI().substring(req.getContextPath().length(), req.getRequestURI().length()-2).equalsIgnoreCase("/update")) {
+				switch (req.getMethod()) {
+				case "GET":
+					res.setStatus(400);	res.getWriter().write("Method Not Supported");	break;
+				case "POST":
+					res.setStatus(400);	res.getWriter().write("Method Not Supported");	break;
+				case "PUT":
+					reimbursementController.updateStatus(req, res, Integer.parseInt(value));
+					break;
+				case "DELETE":
+					res.setStatus(400);	res.getWriter().write("Method Not Supported");	break;
+				default:
+					res.setStatus(400);	res.getWriter().write("Method Not Supported");	break;
+				}
+			}
+		else if (req.getRequestURI().substring(req.getContextPath().length(), req.getRequestURI().length()-value.length()-1).equalsIgnoreCase("/viewHistory")) {
+			switch (req.getMethod()) {
+			case "GET":
+				reimbursementController.findTicketByUserID(req, res, Integer.parseInt(value));
+				break;
+			case "POST":
+				res.setStatus(400);	res.getWriter().write("Method Not Supported");	break;
+			case "PUT":
+				res.setStatus(400);	res.getWriter().write("Method Not Supported");	break;
+			case "DELETE":
+				res.setStatus(400); res.getWriter().write("Method Not Supported");	break;
+			default:
+				res.setStatus(400); res.getWriter().write("Method Not Supported");	break;
+			}
+		}
+		} else {
 		System.out.println(URI);
 		switch (URI) {
 			case "/login":{
@@ -90,7 +148,7 @@ public class FrontController extends HttpServlet{
 				}
 				break;
 			}
-			case "/addTicket":{
+			case "/newReimb":{
 				switch (req.getMethod()) {
 				case "GET":{
 					res.setStatus(400);
@@ -104,8 +162,7 @@ public class FrontController extends HttpServlet{
 				}
 				case "PUT":{
 					reimbursementController.createTicket(req, res);
-					res.setStatus(400);
-					res.getWriter().write("Method Not Supported");
+					res.setStatus(200);
 					break;
 				}
 				case "DELETE":{
@@ -121,10 +178,10 @@ public class FrontController extends HttpServlet{
 			}
 			break;
 			}
-			case "/statusChange":{
+			case "/viewByAuthor":{
 				switch (req.getMethod()) {
 				case "GET":{
-					//TODO
+					reimbursementController.findTicketByUserID(req, res, 1);
 					break;
 				}
 				case "POST":{
@@ -187,7 +244,7 @@ public class FrontController extends HttpServlet{
 			
 		}
 		
-		
+		}
 		
 	}
 	
